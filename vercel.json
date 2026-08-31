@@ -1,0 +1,6 @@
+{
+  "version": 2,
+  "buildCommand": "echo 'PersonaChat static preview build'",
+  "outputDirectory": "frontend",
+  "framework": null
+}
