@@ -1,0 +1,78 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int            @id @default(autoincrement())
+  userId       String         @unique
+  createdAt    DateTime       @default(now())
+  lastActiveAt DateTime       @updatedAt
+  conversations Conversation[]
+}
+
+model Admin {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+}
+
+model Persona {
+  id                Int            @id @default(autoincrement())
+  name              String
+  description       String           @default("")
+  avatar            String           @default("")
+  language          String           @default("Banglish")
+  personality       String           @default("")
+  chatStyle         String           @default("short casual messages")
+  emojiStyle        String           @default("medium")
+  avgResponseLength Int              @default(0)
+  commonPhrases     String           @default("[]")
+  vocabulary        String           @default("[]")
+  emotionalPatterns String           @default("[]")
+  systemPrompt      String           @default("")
+  sourceData        String           @default("{}")
+  active            Boolean          @default(false)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  sources           PersonaSource[]
+  conversations     Conversation[]
+}
+
+model PersonaSource {
+  id         Int      @id @default(autoincrement())
+  personaId  Int
+  fileName   String
+  messageCount Int    @default(0)
+  participants String @default("[]")
+  createdAt  DateTime @default(now())
+  persona    Persona  @relation(fields: [personaId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id                Int       @id @default(autoincrement())
+  userId            Int?
+  personaId         Int
+  isAdminConversation Boolean @default(false)
+  createdAt         DateTime  @default(now())
+  lastActiveAt      DateTime  @updatedAt
+  user              User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  persona           Persona   @relation(fields: [personaId], references: [id], onDelete: Cascade)
+  messages          Message[]
+}
+
+model Message {
+  id             Int          @id @default(autoincrement())
+  conversationId Int
+  role           String
+  content        String
+  createdAt      DateTime     @default(now())
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+}
