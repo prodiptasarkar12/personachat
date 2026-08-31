@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>PersonaChat</title><link rel="stylesheet" href="/css/style.css"></head>
+<body>
+<div id="app">
+  <section id="landing" class="screen">
+    <div class="hero"><div class="brand">Persona<span>Chat</span></div><p>AI simulations shaped by real conversation styles.</p><div class="card"><h2>Start chatting</h2><label>User ID</label><input id="userId" placeholder="e.g. U10025" autocomplete="off"><button onclick="enterApp()">Continue</button><a href="/admin.html">Admin login</a><small>Personas are AI simulations, not the real person.</small></div></div>
+  </section>
+  <section id="chatScreen" class="chat-layout hidden">
+    <aside><div class="side-head"><div class="brand">Persona<span>Chat</span></div><button onclick="logout()">×</button></div><div id="personaList" class="persona-list"></div></aside>
+    <main><header id="chatHeader"><div class="avatar">P</div><div><strong>Select a persona</strong><small>Choose someone to begin</small></div></header><div id="messages" class="messages"><div class="empty">Select a persona to start a conversation.</div></div><div id="composer" class="composer hidden"><textarea id="messageInput" rows="1" placeholder="Type a message..."></textarea><button onclick="sendMessage()">➤</button></div></main>
+  </section>
+</div><script src="/js/app.js"></script></body></html>
